@@ -1,24 +1,23 @@
-const path = require('path');
+var path = require("path");
+var SRC_DIR = path.join(__dirname, "/client/src");
+var DIST_DIR = path.join(__dirname, "/client/dist");
 
 module.exports = {
-  mode: 'development',
-  entry: './src/index.js',
+  entry: `${SRC_DIR}/app.jsx`,
+  mode: "development",
   output: {
-    path: path.join(__dirname, 'public'),
-    filename: 'bundle.js'
+    filename: "bundle.js",
+    path: DIST_DIR,
   },
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader'
-      }
-    ]
+        test: /\.jsx?/,
+        loader: "babel-loader",
+        options: {
+          presets: ["@babel/preset-env", "@babel/preset-react"],
+        },
+      },
+    ],
   },
-  devtool: 'eval-cheap-module-source-map',
-  devServer: {
-    // contentBase: path.join(__dirname, 'public')
-    static: './'
-  }
-}
+};

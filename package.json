@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack --mode=development",
-    "dev": "webpack serve"
+    "build:dev": "webpack -w",
+    "start": "node server/index.js",
+    "start:dev": "npx nodemon server/index.js -w"
   },
   "repository": {
     "type": "git",

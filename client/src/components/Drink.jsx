@@ -1,14 +1,21 @@
 import React from 'react';
 import axios from 'axios';
-
+import Modal from './Modal.jsx';
+import { IoIosSync } from "react-icons/io";
 class Drink extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      drink: {}
+      drink: {},
+      show: false
     };
+    this.moduleClick = this.moduleClick.bind(this);
+    this.getRandomDrink = this.getRandomDrink.bind(this);
   }
   componentDidMount() {
+    this.getRandomDrink();
+  }
+  getRandomDrink() {
     axios.get('https://www.thecocktaildb.com/api/json/v1/1/random.php')
       .then((res) => {
         var drinkObject = {
@@ -39,17 +46,26 @@ class Drink extends React.Component {
         console.log(err);
       });
   }
+  moduleClick() {
+    if (this.state.show) {
+      this.setState({ show: false });
+    } else {
+      this.setState({ show: true });
+    }
+  }
   render() {
     return (
-      <div id='temp'>
-        <div id='imageContainer'><img src={this.state.drink.thumbnail} /></div>
-        <div id="informationContainer">
-          <p>{this.state.drink.name}</p>
-          <p>{this.state.drink.Instructions}</p>
-          {this.state.drink.ingredients ?
-            this.state.drink.ingredients.map((ingredient) => { return (<li key={ingredient}>{ingredient}</li>) })
-            : null}
+      <div id='temp' >
+        <div id='redoSection'>
+          <h1> The Drank </h1>
+          <IoIosSync onClick={this.getRandomDrink} />
         </div>
+        <Modal onClick={this.moduleClick} show={this.state.show} information={['food',
+          this.state.drink.name,
+          this.state.drink.Instructions,
+          this.state.drink.ingredients
+        ]} />
+        <div id='imageContainer' onClick={this.moduleClick}><img src={this.state.drink.thumbnail} /></div>
       </div>
     );
   }

@@ -1,14 +1,22 @@
 import React from 'react';
 import axios from 'axios';
+import Modal from './Modal.jsx';
+import { IoIosSync } from "react-icons/io";
 
 class Food extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      food: {}
+      food: {},
+      show: false
     };
+    this.moduleClick = this.moduleClick.bind(this);
+    this.getRandomFood = this.getRandomFood.bind(this);
   }
   componentDidMount() {
+    this.getRandomFood();
+  }
+  getRandomFood() {
     axios.get('https://www.themealdb.com/api/json/v1/1/random.php')
       .then((res) => {
         var foodObject = {
@@ -37,18 +45,26 @@ class Food extends React.Component {
         console.log(err);
       });
   }
+  moduleClick() {
+    if (this.state.show) {
+      this.setState({show: false});
+    } else {
+      this.setState({show:true});
+    }
+  }
   render() {
     return (
-      <div id='temp'>
-        <div id="informationContainer">
-          <p>{this.state.food.name}</p>
-          {/* <p>{this.state.food.instructions}</p> */}
-          <p>Ingredients</p>
-          {this.state.food.ingredients ?
-            this.state.food.ingredients.map((ingredient) => { return (<li key={ingredient}>{ingredient}</li>) })
-            : null}
+      <div id='temp' >
+        <div id='redoSection'>
+          <h1> The Meal </h1>
+          <IoIosSync  onClick={this.getRandomFood}/>
         </div>
-        <div id='imageContainer'><img src={this.state.food.thumbnail} /></div>
+        <Modal  onClick={this.moduleClick} show={this.state.show}  information={['food',
+                                                    this.state.food.name,
+                                                    this.state.food.instructions,
+                                                    this.state.food.ingredients
+                                                    ]}/>
+        <div id='imageContainer' onClick={this.moduleClick}><img src={this.state.food.thumbnail} /></div>
       </div>
     );
   }

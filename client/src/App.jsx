@@ -5,15 +5,41 @@ import Food from './components/Food.jsx';
 import Drink from './components/Drink.jsx';
 import Navbar from './components/Navbar.jsx';
 
-var App = (props) => {
-  return (
-    <div id='randomizedResults'>
-      <Navbar />
-      <Movie />
-      <Food />
-      <Drink />
-    </div>
-  );
-};
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      roll: false
+    };
+    this.handleClick = this.handleClick.bind(this);
+  }
 
-reactDom.render(<App/>, document.getElementById('app'));
+  handleClick() {
+    this.setState({ roll: true });
+  }
+  render() {
+    if (this.state.roll) {
+      return (
+        <div>
+          <Navbar />
+          <div id='randomizedResults'>
+            <Movie />
+            <Food />
+            <Drink />
+          </div>
+        </div>
+      );
+    }
+    return (
+      <div>
+        <Navbar />
+        <div id='rolling' onClick={this.handleClick}>
+          <h1>Ready to Rock AND Roll!!!</h1>
+          <p> pst Click here! </p>
+        </div>
+
+      </div>
+    )
+  }
+};
+reactDom.render(<App />, document.getElementById('app'));

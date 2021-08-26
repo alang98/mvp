@@ -3,10 +3,12 @@ import reactDom from 'react-dom';
 import Movie from './components/Movie.jsx';
 import Food from './components/Food.jsx';
 import Drink from './components/Drink.jsx';
+import Navbar from './components/Navbar.jsx';
 
 var App = (props) => {
   return (
-    <div>
+    <div id='randomizedResults'>
+      <Navbar />
       <Movie />
       <Food />
       <Drink />
